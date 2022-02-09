@@ -1,0 +1,7 @@
+% parameters of Arrhenius law for Zeldovich exchange reactions rates
+% C [m^3/sec] - n - Ea [J]
+% Park
+% N2+O = NO+N
+1.06274e-12	-1	5.29756e-19
+% NO+O=O2+N
+1.39485e-17	0	2.68537e-19
