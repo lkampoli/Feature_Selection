@@ -1,0 +1,24 @@
+Relative error of conservation law of:
+mass = 4.386e-05
+momentum = 4.4325e-06
+energy = 4.347e-05
+
+save database x_s time_s Temp ni_n na_n rho v p RDm RDa RVTm RVTa RVV
+dataset = [x_s, time_s, Temp, ni_n, na_n, rho, v, p, RDm, RDa, RVTm, RVTa, RVV];
+save dataset_N2N.dat dataset -ascii
+
+ struct with fields:
+
+       x_s: [1936×1 double]
+    time_s: [1936×1 double]
+      Temp: [1936×1 double]
+      ni_n: [1936×47 double]
+      na_n: [1936×1 double]
+       rho: [1936×1 double]
+         v: [1936×1 double]
+         p: [1936×1 double]
+       RDm: [1936×47 double]
+       RDa: [1936×47 double]
+      RVTm: [1936×47 double]
+      RVTa: [1936×47 double]
+       RVV: [1936×47 double]
