@@ -1,0 +1,326 @@
+=== Run information ===
+
+Scheme:       weka.classifiers.trees.M5P -M 4.0 -num-decimal-places 4
+Relation:     shear_viscosity
+Instances:    13200
+Attributes:   52
+              Pressure
+              Temperature
+              X1
+              X2
+              X3
+              X4
+              X5
+              X6
+              X7
+              X8
+              X9
+              X10
+              X11
+              X12
+              X13
+              X14
+              X15
+              X16
+              X17
+              X18
+              X19
+              X20
+              X21
+              X22
+              X23
+              X24
+              X25
+              X26
+              X27
+              X28
+              X29
+              X30
+              X31
+              X32
+              X33
+              X34
+              X35
+              X36
+              X37
+              X38
+              X39
+              X40
+              X41
+              X42
+              X43
+              X44
+              X45
+              X46
+              X47
+              X48
+              X49
+              Viscosity
+Test mode:    10-fold cross-validation
+
+=== Classifier model (full training set) ===
+
+M5 pruned model tree:
+(using smoothed linear models)
+
+Temperature <= 4150 : 
+|   Temperature <= 1750 : 
+|   |   Temperature <= 750 : 
+|   |   |   X2 <= 0 : 
+|   |   |   |   Temperature <= 150 : LM1 (132/3.66%)
+|   |   |   |   Temperature >  150 : LM2 (384/1.902%)
+|   |   |   X2 >  0 : 
+|   |   |   |   X2 <= 0.002 : LM3 (252/2.908%)
+|   |   |   |   X2 >  0.002 : LM4 (156/1.91%)
+|   |   Temperature >  750 : 
+|   |   |   X3 <= 0.002 : 
+|   |   |   |   X3 <= 0 : 
+|   |   |   |   |   X3 <= 0 : 
+|   |   |   |   |   |   Temperature <= 1250 : 
+|   |   |   |   |   |   |   X3 <= 0 : LM5 (108/3.104%)
+|   |   |   |   |   |   |   X3 >  0 : LM6 (48/1.495%)
+|   |   |   |   |   |   Temperature >  1250 : LM7 (60/0.128%)
+|   |   |   |   |   X3 >  0 : LM8 (180/4.161%)
+|   |   |   |   X3 >  0 : 
+|   |   |   |   |   X3 <= 0.001 : LM9 (144/3.571%)
+|   |   |   |   |   X3 >  0.001 : LM10 (156/3.506%)
+|   |   |   X3 >  0.002 : LM11 (624/2.367%)
+|   Temperature >  1750 : 
+|   |   X5 <= 0.003 : LM12 (1764/2.329%)
+|   |   X5 >  0.003 : 
+|   |   |   X5 <= 0.008 : LM13 (744/3.108%)
+|   |   |   X5 >  0.008 : LM14 (660/1.245%)
+Temperature >  4150 : 
+|   X12 <= 0.001 : LM15 (4440/1.755%)
+|   X12 >  0.001 : LM16 (3348/2.377%)
+
+LM num: 1
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0.0008 * X2 
+	- 0 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 2
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0.0094 * X2 
+	- 0 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 3
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0.0023 * X2 
+	- 0 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 4
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0.0008 * X2 
+	- 0 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 5
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0 * X2 
+	+ 0.0043 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 6
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0 * X2 
+	+ 0.0062 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 7
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0 * X2 
+	+ 0.0044 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 8
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0 * X2 
+	+ 0.0008 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 9
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0 * X2 
+	+ 0.0004 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 10
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0 * X2 
+	+ 0.0004 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 11
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0.0001 * X2 
+	+ 0.0004 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	- 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 12
+Viscosity = 
+	0 * Temperature 
+	- 0 * X1 
+	+ 0 * X2 
+	+ 0.0005 * X3 
+	+ 0 * X5 
+	- 0.0099 * X6 
+	+ 0.0808 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0
+
+LM num: 13
+Viscosity = 
+	0 * Temperature 
+	- 0 * X1 
+	+ 0 * X2 
+	- 0 * X3 
+	+ 0.0014 * X5 
+	- 0 * X6 
+	+ 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0.0001
+
+LM num: 14
+Viscosity = 
+	0 * Temperature 
+	- 0 * X1 
+	+ 0 * X2 
+	- 0 * X3 
+	+ 0.0009 * X5 
+	- 0 * X6 
+	+ 0.0002 * X9 
+	- 0 * X10 
+	+ 0 * X17 
+	+ 0.0001
+
+LM num: 15
+Viscosity = 
+	0 * Temperature 
+	+ 0 * X1 
+	+ 0 * X2 
+	- 0 * X3 
+	+ 0 * X5 
+	+ 0.0004 * X6 
+	- 0 * X10 
+	+ 0.0022 * X11 
+	- 0.0123 * X17 
+	+ 0
+
+LM num: 16
+Viscosity = 
+	0 * Temperature 
+	- 0 * X1 
+	+ 0 * X2 
+	- 0 * X3 
+	+ 0 * X5 
+	+ 0 * X6 
+	+ 0.0016 * X8 
+	- 0 * X10 
+	- 0 * X11 
+	- 0.0026 * X13 
+	+ 0 * X17 
+	+ 0.0001
+
+Number of Rules : 16
+
+Time taken to build model: 1.76 seconds
+
+=== Cross-validation ===
+=== Summary ===
+
+Correlation coefficient                  0.9998
+Kendall's tau                            0.9906
+Mean absolute logarithmic error          0     
+Mean absolute percentage error           0.0077
+Root mean square logarithmic error       0     
+Root mean square percentage error        0.0146
+Spearman's rho                           0.9999
+Mean absolute error                      0     
+Root mean squared error                  0     
+Relative absolute error                  1.8057 %
+Root relative squared error              2.0471 %
+Total Number of Instances            13200     
+

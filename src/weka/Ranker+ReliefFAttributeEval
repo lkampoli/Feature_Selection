@@ -1,0 +1,129 @@
+=== Run information ===
+
+Evaluator:    weka.attributeSelection.ReliefFAttributeEval -M -1 -D 1 -K 10
+Search:       weka.attributeSelection.Ranker -T -1.7976931348623157E308 -N -1
+Relation:     shear_viscosity
+Instances:    13200
+Attributes:   52
+              Pressure
+              Temperature
+              X1
+              X2
+              X3
+              X4
+              X5
+              X6
+              X7
+              X8
+              X9
+              X10
+              X11
+              X12
+              X13
+              X14
+              X15
+              X16
+              X17
+              X18
+              X19
+              X20
+              X21
+              X22
+              X23
+              X24
+              X25
+              X26
+              X27
+              X28
+              X29
+              X30
+              X31
+              X32
+              X33
+              X34
+              X35
+              X36
+              X37
+              X38
+              X39
+              X40
+              X41
+              X42
+              X43
+              X44
+              X45
+              X46
+              X47
+              X48
+              X49
+              Viscosity
+Evaluation mode:    evaluate on all training data
+
+
+
+=== Attribute Selection on all input data ===
+
+Search Method:
+	Attribute ranking.
+
+Attribute Evaluator (supervised, Class (numeric): 52 Viscosity):
+	ReliefF Ranking Filter
+	Instances sampled: all
+	Number of nearest neighbours (k): 10
+	Equal influence nearest neighbours
+
+Ranked attributes:
+ 0.0178111    2 Temperature
+ 0.0082646    4 X2
+ 0.0021801    3 X1
+ 0.001473     5 X3
+ 0.0002316    6 X4
+-0.0000572   51 X49
+-0.0001995   50 X48
+-0.000202    49 X47
+-0.0002046   48 X46
+-0.0002074   47 X45
+-0.0002104   46 X44
+-0.0002136   45 X43
+-0.000217    44 X42
+-0.0002206   43 X41
+-0.0002245   42 X40
+-0.0002252    7 X5
+-0.0002286   41 X39
+-0.000233    40 X38
+-0.0002376   39 X37
+-0.0002426   38 X36
+-0.000248    37 X35
+-0.0002537   36 X34
+-0.0002598   35 X33
+-0.0002663   34 X32
+-0.0002733   33 X31
+-0.0002807   32 X30
+-0.0002887   31 X29
+-0.0002972   30 X28
+-0.0003064   29 X27
+-0.0003163   28 X26
+-0.0003268   27 X25
+-0.0003381   26 X24
+-0.0003503   25 X23
+-0.0003633   24 X22
+-0.0003773   23 X21
+-0.0003922   22 X20
+-0.0004082   21 X19
+-0.0004253   20 X18
+-0.0004294    8 X6
+-0.0004433   19 X17
+-0.0004623   18 X16
+-0.0004822   17 X15
+-0.0005026   16 X14
+-0.000523    15 X13
+-0.0005244    9 X7
+-0.0005426   14 X12
+-0.00056     13 X11
+-0.0005651   10 X8
+-0.0005728   12 X10
+-0.0005768   11 X9
+-0.0923447    1 Pressure
+
+Selected attributes: 2,4,3,5,6,51,50,49,48,47,46,45,44,43,42,7,41,40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,8,19,18,17,16,15,9,14,13,10,12,11,1 : 51
+

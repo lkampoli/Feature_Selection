@@ -1,0 +1,82 @@
+=== Run information ===
+
+Evaluator:    weka.attributeSelection.CfsSubsetEval -P 1 -E 1
+Search:       weka.attributeSelection.BestFirst -D 1 -N 5
+Relation:     shear_viscosity-weka.filters.unsupervised.attribute.Normalize-S1.0-T0.0-weka.filters.unsupervised.attribute.Standardize
+Instances:    13200
+Attributes:   52
+              Pressure
+              Temperature
+              X1
+              X2
+              X3
+              X4
+              X5
+              X6
+              X7
+              X8
+              X9
+              X10
+              X11
+              X12
+              X13
+              X14
+              X15
+              X16
+              X17
+              X18
+              X19
+              X20
+              X21
+              X22
+              X23
+              X24
+              X25
+              X26
+              X27
+              X28
+              X29
+              X30
+              X31
+              X32
+              X33
+              X34
+              X35
+              X36
+              X37
+              X38
+              X39
+              X40
+              X41
+              X42
+              X43
+              X44
+              X45
+              X46
+              X47
+              X48
+              X49
+              Viscosity
+Evaluation mode:    evaluate on all training data
+
+
+
+=== Attribute Selection on all input data ===
+
+Search Method:
+	Best first.
+	Start set: no attributes
+	Search direction: forward
+	Stale search after 5 node expansions
+	Total number of subsets evaluated: 346
+	Merit of best subset found:    0.969
+
+Attribute Subset Evaluator (supervised, Class (numeric): 52 Viscosity):
+	CFS Subset Evaluator
+	Including locally predictive attributes
+
+Selected attributes: 2,5,11 : 3
+                     Temperature
+                     X3
+                     X9
+
