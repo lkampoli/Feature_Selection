@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Random Forest Feature Importance
+# Random Forest Feature Importance
 # As a side-effect of buiding a random forest ensemble, we get a very useful estimate of feature importance. 
-
-# In[1]:
-
 
 import pandas as pd
 import numpy as np
@@ -14,31 +11,16 @@ from sklearn.feature_selection import mutual_info_classif
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt 
-#get_ipython().run_line_magic('matplotlib', 'inline')
 
-
-# ### Segmentation Data
-
-# In[2]:
-
-
+## Segmentation Data
 seg_data = pd.read_csv('segmentation-all.csv')
 print(seg_data.shape)
-seg_data.head()
-
-
-# In[3]:
-
+print(seg_data.head())
 
 seg_data['Class'].value_counts()
 
-
 # Load the data, scale it and divide into train and test sets.  
 # The filters are *trained* using the training data and then a classifier is trained on the feature subset and tested on the test set. 
-
-# In[4]:
-
-
 y = seg_data.pop('Class').values
 X_raw = seg_data.values
 
@@ -51,48 +33,24 @@ X_test = scaler.transform(X_ts_raw)
 feature_names = seg_data.columns
 X_train.shape, X_test.shape
 
-
-# Build the Random Forest and calculate the scores.  
-
-# In[ ]:
-
-
+## Build the Random Forest and calculate the scores.  
 n_trees = 1000
 RF = RandomForestClassifier(n_estimators=n_trees, max_depth=2, random_state=0)
-RF.fit(X_train,y_train)
-
-
-# In[ ]:
-
+print(RF.fit(X_train,y_train))
 
 rf_scores = RF.feature_importances_
-rf_scores
+print(rf_scores)
 
-
-# Calculate the I-gain scores for comparison.
-
-# In[ ]:
-
-
+## Calculate the I-gain scores for comparison.
 i_scores = mutual_info_classif(X_train,y_train)
-i_scores
-# The i-gain scores for the features
-
-
-# In[ ]:
-
+print(i_scores) # The i-gain scores for the features
 
 df=pd.DataFrame({'Mutual Info.':i_scores,'RF Score':rf_scores,'Feature':feature_names})
 df.set_index('Feature', inplace = True)
 df.sort_values('Mutual Info.', inplace = True, ascending = False)
-df
+print(df)
 
-
-# Plotting the two sets of scores
-
-# In[ ]:
-
-
+## Plotting the two sets of scores
 n = len(df.index)
 rr = range(0,n)
 fig, ax = plt.subplots(figsize=(6,5))
@@ -109,28 +67,15 @@ ax2.set_ylabel('RF Score')
 fig.legend(loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax.transAxes)
 plt.show()
 
-
-# In[ ]:
-
-
 from scipy import stats
 stats.spearmanr(rf_scores, i_scores)
 
-
-# ## Penguins
-
-# In[ ]:
-
-
+## Penguins
 penguins_df = pd.read_csv('penguins.csv', index_col = 0)
 
 feature_names = penguins_df.columns
 print(penguins_df.shape)
-penguins_df.head()
-
-
-# In[ ]:
-
+print(penguins_df.head())
 
 y = penguins_df.pop('species').values
 X = penguins_df.values
@@ -140,46 +85,20 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
 feature_names = penguins_df.columns
 X_train.shape, X_test.shape
 
-
-# In[ ]:
-
-
 RF = RandomForestClassifier(n_estimators=n_trees, max_depth=2, random_state=0)
 RF.fit(X_train,y_train)
 
-
-# In[ ]:
-
-
 rf_scores = RF.feature_importances_
-rf_scores
-
-
-# In[ ]:
-
-
-feature_names
-
-
-# In[ ]:
-
+print(rf_scores)
+print(feature_names)
 
 i_scores = mutual_info_classif(X_train,y_train)
-i_scores
-# The i-gain scores for the features
-
-
-# In[ ]:
-
+print(i_scores) # The i-gain scores for the features
 
 pen_df=pd.DataFrame({'Mutual Info.':i_scores,'RF Score':rf_scores,'Feature':feature_names})
 pen_df.set_index('Feature', inplace = True)
 pen_df.sort_values('Mutual Info.', inplace = True, ascending = False)
-pen_df
-
-
-# In[ ]:
-
+print(pen_df)
 
 n = len(pen_df.index)
 rr = range(0,n)
@@ -197,9 +116,4 @@ ax2.set_ylabel('RF Score')
 fig.legend(loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax.transAxes)
 plt.show()
 
-
-# In[ ]:
-
-
 stats.spearmanr(rf_scores, i_scores)
-

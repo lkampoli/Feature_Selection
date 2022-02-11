@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Correlation Based Feature Selection (CFS)
+# Correlation Based Feature Selection (CFS)
 
 # This code walks through two examples of Correlation Based Feature Selection using the Segementation and Penguin datasets. Two search techniques are presented here, a Forward search and a Best First search. Some functions used in this notebook are from the CFS implementation by Jundong et al [1]
-
-# In[18]:
-
 
 # Import Packages
 import pandas as pd
@@ -21,34 +18,21 @@ from matplotlib.ticker import MaxNLocator
 from CFS import cfs, merit_calculation
 from CFS_ForwardSearch import CFS_FS
 
-
-# ## Example 1: CFS on Segmentation dataset
-
-# In[19]:
-
+# Example 1: CFS on Segmentation dataset
 
 seg_data = pd.read_csv('segmentation-all.csv')
 print(seg_data.shape)
-seg_data.head()
-
-
-# In[20]:
-
+print(seg_data.head())
 
 y = seg_data.pop('Class').values
 X_raw = seg_data.values
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, 
-                                                       random_state=2, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=2, test_size=1/2)
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)
 X_test = scaler.transform(X_ts_raw)
 max_length = X_train.shape[0]
 feat_num = X_train.shape[1]
-X_train.shape, X_test.shape
-
-
-# In[21]:
-
+print(X_train.shape, X_test.shape)
 
 kNN = KNeighborsClassifier(n_neighbors=5)
 kNN = kNN.fit(X_train,y_train)
@@ -59,32 +43,19 @@ cv_acc = cross_val_score(kNN, X_train, y_train, cv=8)
 print("X_Val on training all features: {0:.3f}".format(cv_acc.mean())) 
 print("Hold Out testing all features: {0:.3f}".format(acc)) 
 
-
-# ### Forward Search - CFS
+## Forward Search - CFS
 
 # Here, the best feature subset is found by finding the best single feature subset using merit score then adding all other features to this best feature and recomputing the merit. This process continues until merit score stops increasing.
-
-# In[22]:
-
 
 merit_score_sel, sel_comb = CFS_FS(X_train, y_train)
 print("Merit Score of Selected Features: " + str(merit_score_sel.values[0]))
 print("Selected Feature index: " + str(sel_comb))
 
-
-# In[23]:
-
-
-# Print the selected features
+## Print the selected features
 feature_names_sel = seg_data.columns[np.array(sel_comb)]
-feature_names_sel
+print(feature_names_sel)
 
-
-# #### Evaluate on Test Data
-
-# In[24]:
-
-
+## Evaluate on Test Data
 X_train_CFS_FS = X_train[:,sel_comb]
 X_test_CFS_FS = X_test[:,sel_comb]
 
@@ -98,31 +69,18 @@ cv_acc_CFS_FS = cross_val_score(kNN_CFS_FS, X_train_CFS_FS, y_train, cv=8)
 print("X_Val on training selected features: {0:.3f}".format(cv_acc_CFS_FS.mean())) 
 print("Hold Out testing selected features: {0:.3f}".format(acc_CFS_FS)) 
 
-
-# ### Best First Search - CFS
+# Best First Search - CFS
 
 # The stopping criteria for this implementation is where 5 consecutive non-improving feature subsets are found.
-
-# In[25]:
-
-
 Sel_feat = cfs(X_train,y_train)
 Sel_feat = Sel_feat[Sel_feat!=-1]
-Sel_feat
+print(Sel_feat)
 
-
-# In[26]:
-
-
-# Print the names of the features selected
+## Print the names of the features selected
 feature_names_sel = seg_data.columns[Sel_feat]
 feature_names_sel
 
-
-# In[27]:
-
-
-# Find the merit score for the search space of the selected feature subsets
+## Find the merit score for the search space of the selected feature subsets
 merit = []
 cv_acc_CFS = []
 for i in range(1,len(Sel_feat)+1):
@@ -131,13 +89,9 @@ for i in range(1,len(Sel_feat)+1):
     kNN_CFS = kNN.fit(X_train_CFS,y_train)
     cv_acc_CFS.insert(i,cross_val_score(kNN_CFS, X_train_CFS, y_train, cv=8).mean())
 
-merit
+print(merit)
 
-
-# In[28]:
-
-
-# Plot merit score as features are added
+## Plot merit score as features are added
 f1 = plt.figure(dpi = 300)
 plt.plot(feature_names_sel, merit)
 plt.title("Correlation based Feature Selection (Segmentation)")
@@ -146,12 +100,7 @@ plt.xlabel("Features")
 plt.ylabel("Merit Score")
 plt.tight_layout()
 
-
-# #### Evaluate on test data
-
-# In[29]:
-
-
+## Evaluate on test data
 X_test_CFS = X_test[:,Sel_feat]
 
 kNN_CFS = kNN.fit(X_train_CFS,y_train)
@@ -164,12 +113,7 @@ cv_acc_CFS = cross_val_score(kNN_CFS, X_train_CFS, y_train, cv=8)
 print("X_Val on training selected features: {0:.3f}".format(cv_acc_CFS.mean())) 
 print("Hold Out testing selected features: {0:.3f}".format(acc_CFS)) 
 
-
-# ### Plot Results
-
-# In[30]:
-
-
+## Plot Results
 fig, ax = plt.subplots(dpi = 300)
 width = 0.2
 
@@ -205,34 +149,22 @@ ax2.set_ylabel('Feature Count')
 plt.title("Segmentation Dataset")
 plt.show()
 
-
-# ## Example 2: CFS on Penguins dataset
-
-# In[31]:
-
+## Example 2: CFS on Penguins dataset
 
 Peng_data = pd.read_csv('penguins.csv').drop(columns = ['Unnamed: 0'])
 print(Peng_data.shape)
-Peng_data.head()
-
-
-# In[32]:
-
+print(Peng_data.head())
 
 y = Peng_data.pop('species').values
 X_raw = Peng_data.values
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, 
-                                                       random_state=2, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=2, test_size=1/2)
+
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)
 X_test = scaler.transform(X_ts_raw)
 max_length = X_train.shape[0]
 feat_num = X_train.shape[1]
-X_train.shape, X_test.shape
-
-
-# In[33]:
-
+print(X_train.shape, X_test.shape)
 
 kNN = KNeighborsClassifier(n_neighbors=5)
 kNN = kNN.fit(X_train,y_train)
@@ -243,28 +175,13 @@ cv_acc = cross_val_score(kNN, X_train, y_train, cv=8)
 print("X_Val on training all features: {0:.3f}".format(cv_acc.mean())) 
 print("Hold Out testing all features: {0:.3f}".format(acc)) 
 
-
-# ### Forward Search - CFS
-
-# In[34]:
-
-
+## Forward Search - CFS
 merit_score_sel, sel_comb = CFS_FS(X_train, y_train)
-
-
-# In[35]:
-
 
 print("Selected Features Merit Score: " + str(merit_score_sel.values[0]))
 print("Selected Feature index: " + str(sel_comb))
 
-
-# #### Evaluate on test data
-
-# In[36]:
-
-
-# Evalutate on test data
+## Evalutate on test data
 X_train_CFS_FS = X_train[:,sel_comb]
 X_test_CFS_FS = X_test[:,sel_comb]
 
@@ -278,29 +195,16 @@ cv_acc_CFS_FS = cross_val_score(kNN_CFS_FS, X_train_CFS_FS, y_train, cv=8)
 print("X_Val on training selected features: {0:.3f}".format(cv_acc_CFS_FS.mean())) 
 print("Hold Out testing selected features: {0:.3f}".format(acc_CFS_FS)) 
 
-
-# ### Best First Search - CFS
-
-# In[37]:
-
-
+## Best First Search - CFS
 Sel_feat = cfs(X_train,y_train)
 Sel_feat = Sel_feat[Sel_feat!=-1]
-Sel_feat
+print(Sel_feat)
 
-
-# In[38]:
-
-
-# Print the names of the features selected
+## Print the names of the features selected
 feature_names_sel = seg_data.columns[Sel_feat]
 feature_names_sel
 
-
-# In[39]:
-
-
-# Find the merit score for the search space of the selected feature subsets
+## Find the merit score for the search space of the selected feature subsets
 merit = []
 cv_acc_CFS = []
 for i in range(1,len(Sel_feat)+1):
@@ -309,13 +213,9 @@ for i in range(1,len(Sel_feat)+1):
     kNN_CFS = kNN.fit(X_train_CFS,y_train)
     cv_acc_CFS.insert(i,cross_val_score(kNN_CFS, X_train_CFS, y_train, cv=8).mean())
 
-merit
+print(merit)
 
-
-# In[40]:
-
-
-# Plot merit score as features are added
+## Plot merit score as features are added
 f1 = plt.figure(dpi = 300)
 plt.plot(feature_names_sel, merit)
 plt.title("Correlation based Feature Selection (Penguins)")
@@ -324,12 +224,7 @@ plt.xlabel("Features")
 plt.ylabel("Merit Score")
 plt.tight_layout()
 
-
-# #### Evaluate on Test data
-
-# In[41]:
-
-
+## Evaluate on Test data
 X_test_CFS = X_test[:,Sel_feat]
 
 kNN_CFS = kNN.fit(X_train_CFS,y_train)
@@ -342,12 +237,7 @@ cv_acc_CFS = cross_val_score(kNN_CFS, X_train_CFS, y_train, cv=8)
 print("X_Val on training selected features: {0:.3f}".format(cv_acc_CFS.mean())) 
 print("Hold Out testing selected features: {0:.3f}".format(acc_CFS)) 
 
-
-# ### Plot Results
-
-# In[42]:
-
-
+## Plot Results
 fig, ax = plt.subplots(dpi = 300)
 width = 0.2
 
@@ -382,7 +272,6 @@ ax.set_ylabel('Accuracy')
 ax2.set_ylabel('Feature Count')
 plt.title("Penguins Dataset")
 plt.show()
-
 
 # References:
 # 
