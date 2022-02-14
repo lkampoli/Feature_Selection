@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Feature Selection using Filters
-# ### Feature Scoring - two methods  
+# Feature Selection using Filters
+# Feature Scoring - two methods  
 # 1. Chi square statistic
 # 2. Information Gain
-
-# In[1]:
-
 
 import pandas as pd
 import numpy as np
@@ -17,79 +14,51 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt 
 
-
-# In[2]:
-
-
-seg_data = pd.read_csv('segmentation-all.csv')
+#seg_data = pd.read_csv('segmentation-all.csv')
+seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
 print(seg_data.shape)
-seg_data.head()
+print(seg_data.head())
 
-
-# In[3]:
-
-
-seg_data['Class'].value_counts()
-
+#print(seg_data['Class'].value_counts())
+print(seg_data['Viscosity'].value_counts())
 
 # Load the data, scale it and divide into train and test sets.  
 # The filters are *trained* using the training data and then a classifier is trained on the feature subset and tested on the test set. 
-
-# In[4]:
-
-
-y = seg_data.pop('Class').values
+#y = seg_data.pop('Class').values
+y = seg_data.pop('Viscosity').values
 X_raw = seg_data.values
+print("X_raw =",X_raw)
 
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, 
-                                                       random_state=1, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=1, test_size=1/2)
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)
 X_test = scaler.transform(X_ts_raw)
 
 feature_names = seg_data.columns
-X_train.shape, X_test.shape
+print(feature_names)
+print(X_train.shape, X_test.shape)
+print(y_train.shape, y_test.shape)
+print("X_train=",X_train, "y_train=",y_train)
 
-
-# ### Feature Scores  
+# Feature Scores  
 # Determine the chi-squared and information gain scores for all features using the training set.   
 # **Note:** The mutual information score returned by `mutual_info_classif` is effectively an information gain score.  
-
-# In[5]:
-
-
 chi2_score, pval = chi2(X_train, y_train)
 chi2_score = np.nan_to_num(chi2_score)
-chi2_score
-# The chi square scores for the features
-
-
-# In[6]:
-
+print("chi2_score = ", chi2_score) # The chi square scores for the features
 
 i_scores = mutual_info_classif(X_train,y_train)
-i_scores
-# The i-gain scores for the features
-
+print("i_score = ", i_scores) # The i-gain scores for the features
 
 # Store the scores in a dataframe indexed by the feature names.
-
-# In[7]:
-
-
 df=pd.DataFrame({'Mutual Info.':i_scores,'Chi Square':chi2_score,'Feature':feature_names})
 df.set_index('Feature', inplace = True)
 df.sort_values('Mutual Info.', inplace = True, ascending = False)
-df
+print(df)
 
-
-# ### Plotting the Filter scores
+# Plotting the Filter scores
 # We see that the two scores are fairly well correlated.  
 # The Spearman correlation is 0.89.
-
-# In[8]:
-
-
 fig, ax = plt.subplots()
 rr = range(0,len(feature_names))
 ax2 = ax.twinx()
@@ -103,51 +72,30 @@ ax.set_ylabel('I-Gain')
 ax2.set_ylabel('Chi Squared')
 fig.legend(loc="upper right", bbox_to_anchor=(1,1), bbox_transform=ax.transAxes)
 
-
-# In[9]:
-
-
 from scipy import stats
 stats.spearmanr(chi2_score, i_scores)
 
-
-# ## Feature Selection
+# Feature Selection
 # Compare  
 # - Baseline: all features
 # - Top three, I-Gain and Chi-Square
 # - Top six, I-Gain and Chi-Square
 # - Top half (12), I-Gain and Chi-Square
 
-# In[10]:
-
-
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, mutual_info_classif
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 
-
-# ### Baseline Classifier
-
-# In[11]:
-
-
+# Baseline Classifier
 model = KNeighborsClassifier(n_neighbors=3)
 model = model.fit(X_train,y_train)
 y_pred = model.predict(X_test)
 acc = accuracy_score(y_pred,y_test)
-acc
-
-
-# In[12]:
-
+print(acc)
 
 n_features = X_train.shape[1]
-n_features
-
-
-# In[13]:
-
+print(n_features)
 
 filters = [mutual_info_classif, chi2]
 k_options = [n_features, 3, 6, 10, 15]
@@ -158,8 +106,7 @@ i_gain_scores = {}
 for the_filter in filters:
     accs = []
     for k_val in k_options:
-        FS_trans = SelectKBest(the_filter, 
-                           k=k_val).fit(X_train, y_train)
+        FS_trans = SelectKBest(the_filter, k=k_val).fit(X_train, y_train)
         X_tR_new = FS_trans.transform(X_train)
         X_tS_new = FS_trans.transform(X_test)
 
@@ -172,13 +119,8 @@ for the_filter in filters:
         print(the_filter, k_val, acc)
     filt_scores[the_filter.__name__] = accs
 
-
-# In[14]:
-
-
 import matplotlib.pyplot as plt 
 import numpy as np
-#get_ipython().run_line_magic('matplotlib', 'inline')
 
 fig, ax = plt.subplots()
 width = 0.3
@@ -205,15 +147,10 @@ plt.ylabel('Test Set Accuracy')
 plt.xlabel('Feature Counts')
 plt.show()
 
-
-# ## Hybrid Filter Wrapper Strategy
+# Hybrid Filter Wrapper Strategy
 # We rank the features using information gain (well mutual information) and select the _k_ best to build a classifier.  
 # We iterate through increasing values of *k*.  
 # `SelectKBest` is a _transform_ that transforms the training data.
-# 
-
-# In[ ]:
-
 
 cv_acc_scores = []
 tst_acc_scores = []
@@ -235,14 +172,9 @@ df['Training Acc.'] = cv_acc_scores
 df['Test Acc.'] = tst_acc_scores
 
 print(best_k, best_acc)
-df.head(15)
-
-
-# In[ ]:
-
+print(df.head(15))
 
 import matplotlib.pyplot as plt
-#get_ipython().run_line_magic('matplotlib', 'inline')
 
 n = len(df.index)
 rr = range(0,n)
@@ -260,22 +192,3 @@ ax.set_ylabel('I-Gain')
 ax2.set_ylabel('Accuracy')
 fig.legend(loc="upper right", bbox_to_anchor=(1,0.8), bbox_transform=ax.transAxes)
 plt.show()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
