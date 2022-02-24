@@ -23,7 +23,7 @@ from CFS_ForwardSearch import CFS_FS
 # Example 1: CFS on Segmentation dataset
 #seg_data = pd.read_csv('segmentation-all.csv')
 #seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
-seg_data = pd.read_csv('../../data/MT/DB6T.csv')
+seg_data = pd.read_csv('../../data/MT/DB6Tr.csv')
 print(seg_data.shape)
 print(seg_data.head())
 
@@ -32,7 +32,7 @@ y = seg_data.pop('Viscosity').values
 X_raw = seg_data.values
 
 #X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=2, test_size=1/2)
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, train_size=0.075, test_size=0.025, random_state=666, shuffle=True)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, train_size=0.75, test_size=0.25, random_state=666, shuffle=False)
 
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)

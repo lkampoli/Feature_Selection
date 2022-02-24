@@ -65,10 +65,15 @@ x = data.values
 #plt.show()
 #plt.close()
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.75, test_size=0.25, random_state=666, shuffle=True)
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.075, test_size=0.025, random_state=666, shuffle=True)
 
 print("x=",x_train.shape)
 print("y=",y_train.shape)
+print("x=",x_test.shape)
+print("y=",y_test.shape)
+
+newdata = np.concatenate((x_train, y_train.reshape(-1,1)), axis=1)
+np.savetxt('test.out', newdata, fmt='%1.4e')        
 
 #sc_x = StandardScaler()
 #sc_y = StandardScaler()
