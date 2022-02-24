@@ -15,7 +15,8 @@ from sklearn.model_selection import cross_val_score
 import matplotlib.pyplot as plt 
 
 #seg_data = pd.read_csv('segmentation-all.csv')
-seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+#seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+seg_data = pd.read_csv('../../data/MT/DB6T.csv')
 print(seg_data.shape)
 print(seg_data.head())
 
@@ -29,7 +30,9 @@ y = seg_data.pop('Viscosity').values
 X_raw = seg_data.values
 print("X_raw =",X_raw)
 
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=1, test_size=1/2)
+#X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=1, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, train_size=0.075, test_size=0.025, random_state=666, shuffle=True)
+
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)
 X_test = scaler.transform(X_ts_raw)
@@ -98,7 +101,7 @@ n_features = X_train.shape[1]
 print(n_features)
 
 filters = [mutual_info_classif, chi2]
-k_options = [n_features, 3, 6, 10, 15]
+k_options = [n_features, 3, 6, 10, 12]
 filt_scores = {}
 chi_scores = {}
 i_gain_scores = {}
@@ -161,7 +164,7 @@ for kk in range(1, X_train.shape[1]+1):
                            k=kk).fit(X_train, y_train)
     X_tR_new = FS_trans.transform(X_train)
     X_tS_new = FS_trans.transform(X_test)
-    cv_acc = cross_val_score(model, X_tR_new, y_train, cv=8)
+    cv_acc = cross_val_score(model, X_tR_new, y_train, cv=5)
     cv_acc_scores.append(cv_acc.mean())
     y_pred_temp = model.fit(X_tR_new, y_train).predict(X_tS_new)
     tst_acc_scores.append(accuracy_score(y_pred_temp, y_test))

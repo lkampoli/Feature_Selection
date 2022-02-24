@@ -3,7 +3,7 @@
 
 # Correlation Based Feature Selection (CFS)
 # This code walks through two examples of Correlation Based Feature Selection 
-# using the Segementation and Penguin datasets. Two search techniques are 
+# using the Segmentation and Penguin datasets. Two search techniques are 
 # presented here, a Forward search and a Best First search. Some functions 
 # used in this notebook are from the CFS implementation by Jundong et al [1].
 
@@ -22,7 +22,8 @@ from CFS_ForwardSearch import CFS_FS
 
 # Example 1: CFS on Segmentation dataset
 #seg_data = pd.read_csv('segmentation-all.csv')
-seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+#seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+seg_data = pd.read_csv('../../data/MT/DB6T.csv')
 print(seg_data.shape)
 print(seg_data.head())
 
@@ -30,7 +31,8 @@ print(seg_data.head())
 y = seg_data.pop('Viscosity').values
 X_raw = seg_data.values
 
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=2, test_size=1/2)
+#X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=2, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, train_size=0.075, test_size=0.025, random_state=666, shuffle=True)
 
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)

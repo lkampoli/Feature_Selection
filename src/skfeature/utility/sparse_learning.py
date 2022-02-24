@@ -186,4 +186,3 @@ def tree_norm(w, n_features, idx, n_nodes):
         obj += z*two_norm
         i += 1
     return obj
-

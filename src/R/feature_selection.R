@@ -3,6 +3,9 @@ set.seed(7)
 # load the library
 library(mlbench)
 library(caret)
+# if necessary, install randomForest package from source
+# urlPackage <- "https://cran.r-project.org/src/contrib/Archive/randomForest/randomForest_4.6-14.tar.gz"
+# install.packages(urlPackage, repos=NULL, type="source")
 # load the data
 data(PimaIndiansDiabetes)
 # define the control using a random forest selection function

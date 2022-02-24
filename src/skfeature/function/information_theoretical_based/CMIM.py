@@ -1,6 +1,5 @@
 from skfeature.utility.entropy_estimators import *
 
-
 def cmim(X, y, **kwargs):
     """
     This function implements the CMIM feature selection.

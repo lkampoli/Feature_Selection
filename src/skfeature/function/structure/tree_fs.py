@@ -145,7 +145,3 @@ def tree_fs(X, y, z, idx, **kwargs):
             break
 
     return w, obj, value_gamma
-
-
-
-

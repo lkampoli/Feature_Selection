@@ -1,7 +1,6 @@
 import numpy as np
 from sklearn.feature_selection import f_classif
 
-
 def f_score(X, y):
     """
     This function implements the anova f_value feature selection (existing method for classification in scikit-learn),

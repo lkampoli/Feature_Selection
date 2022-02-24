@@ -12,28 +12,37 @@
 import pandas as pd
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_score
 from mlxtend.feature_selection import SequentialFeatureSelector as SFS
 from matplotlib.ticker import MaxNLocator
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+
 
 # Forward Sequential Search on segmentation data.
-seg_data = pd.read_csv('segmentation-all.csv')
+#seg_data = pd.read_csv('segmentation-all.csv')
+seg_data = pd.read_csv('../../data/MT/DB6T.csv')
 print(seg_data.shape)
 print(seg_data.head())
 
-seg_data['Class'].value_counts()
+#seg_data['Class'].value_counts()
+seg_data['Viscosity'].value_counts()
 
 # Data Prep 
 # - Extract the data from the dataframe into numpy arrays
 # - Split into train and test sets 
 # - Apply a [0,1] Scaler. 
 
-y = seg_data.pop('Class').values
+#y = seg_data.pop('Class').values
+y = seg_data.pop('Viscosity').values
+
 X_raw = seg_data.values
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=2, test_size=1/2)
+#X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=2, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, train_size=0.075, test_size=0.25, random_state=666)
+
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)
 X_test = scaler.transform(X_ts_raw)
@@ -45,11 +54,16 @@ X_train.shape, X_test.shape
 # - test performance on training data using cross validation,
 # - test performance on test data using hold-out. 
 
-kNN = KNeighborsClassifier(n_neighbors=4)
+#kNN = KNeighborsClassifier(n_neighbors=4)
+kNN = KNeighborsRegressor(n_neighbors=4)
+
 kNN = kNN.fit(X_train,y_train)
+
 y_pred = kNN.predict(X_test)
-acc = accuracy_score(y_pred,y_test)
-cv_acc = cross_val_score(kNN, X_train, y_train, cv=8)
+
+#acc = accuracy_score(y_pred,y_test)
+acc = r2_score(y_pred,y_test)
+cv_acc = cross_val_score(kNN, X_train, y_train, cv=3)
 
 print("X_Val on training all features: {0:.3f}".format(cv_acc.mean())) 
 print("Hold Out testing all features: {0:.3f}".format(acc)) 
@@ -64,7 +78,7 @@ sfs_forward = SFS(kNN,
                   floating=False, 
                   verbose=verb,
                   scoring='accuracy',
-                  cv=10, n_jobs = -1) # No. of threads depends on the machine.
+                  cv=3, n_jobs = 2) # No. of threads depends on the machine.
 
 sfs_forward = sfs_forward.fit(X_train, y_train, 
                               custom_feature_names=seg_data.columns)
@@ -92,8 +106,9 @@ X_test_sfs = sfs_forward.transform(X_test)
 
 kNN_sfs = kNN.fit(X_train_sfs,y_train)
 y_pred = kNN_sfs.predict(X_test_sfs)
-acc_SFS = accuracy_score(y_pred,y_test)
-cv_acc_SFS = cross_val_score(kNN, X_train_sfs, y_train, cv=8)
+#acc_SFS = accuracy_score(y_pred,y_test)
+acc_SFS = r2_score(y_pred,y_test)
+cv_acc_SFS = cross_val_score(kNN, X_train_sfs, y_train, cv=3)
 
 print("X_train shape: ", X_train_sfs.shape)
 print("X_Val on SFS all features: {0:.3f}".format(cv_acc_SFS.mean())) 
@@ -109,7 +124,7 @@ sfs_backward = SFS(kNN,
                   floating=False, 
                   verbose=verb,
                   scoring='accuracy',
-                  cv=10, n_jobs = -1)
+                  cv=3, n_jobs = 2)
 
 sfs_backward = sfs_backward.fit(X_train, y_train, 
                               custom_feature_names=seg_data.columns)
@@ -131,8 +146,9 @@ X_test_be = sfs_backward.transform(X_test)
 
 kNN_be = kNN.fit(X_train_be,y_train)
 y_pred = kNN_be.predict(X_test_be)
-acc_BE = accuracy_score(y_pred,y_test)
-cv_acc_BE = cross_val_score(kNN, X_train_be, y_train, cv=8)
+#acc_BE = accuracy_score(y_pred,y_test)
+acc_BE = r2_score(y_pred,y_test)
+cv_acc_BE = cross_val_score(kNN, X_train_be, y_train, cv=3)
 
 print("X_train shape: ", X_train_be.shape)
 print("X_Val on BE all features: {0:.3f}".format(cv_acc_BE.mean())) 

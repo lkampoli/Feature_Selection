@@ -28,6 +28,7 @@ def main():
     correct = 0
     #for train, test in ss:
     for train, test in cv.split(X_train, y_train):
+
         # obtain the score of each feature on the training set
         score = fisher_score.fisher_score(X[train], y[train])
 
@@ -52,4 +53,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

@@ -1,6 +1,5 @@
 from skfeature.function.information_theoretical_based import LCSI
 
-
 def cife(X, y, **kwargs):
     """
     This function implements the CIFE feature selection

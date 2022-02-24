@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 #from sklearn.model_selection import cross_val_score
-#from sklearn.metrics import accuracy_score
+##from sklearn.metrics import accuracy_score
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 #from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import DecisionTreeRegressor
@@ -16,7 +16,8 @@ from sklearn import tree
 import matplotlib.pyplot as plt 
 
 #penguins_df = pd.read_csv('penguins.csv', index_col = 0)
-penguins_df = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+#penguins_df = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+penguins_df = pd.read_csv('../../data/MT/DB6T.csv')
 
 feature_names = penguins_df.columns
 print(feature_names)
@@ -34,7 +35,9 @@ print(penguins_df['Viscosity'].value_counts())
 y = penguins_df.pop('Viscosity').values
 X = penguins_df.values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1, test_size=1/2)
+#X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1, test_size=1/2)
+X_train, X_test, y_train, y_test  = train_test_split(X, y, train_size=0.75, test_size=0.25, random_state=666)
+
 feature_names = penguins_df.columns
 print(X_train.shape, X_test.shape)
 

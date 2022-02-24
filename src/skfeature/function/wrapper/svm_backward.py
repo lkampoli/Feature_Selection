@@ -3,7 +3,6 @@ from sklearn.svm import SVC
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 
-
 def svm_backward(X, y, n_selected_features):
     """
     This function implements the backward feature selection algorithm based on SVM
@@ -55,5 +54,3 @@ def svm_backward(X, y, n_selected_features):
         F.remove(idx)
         count -= 1
     return np.array(F)
-
-

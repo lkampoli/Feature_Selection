@@ -1,9 +1,10 @@
 import scipy.io
 from sklearn.metrics import accuracy_score
-from sklearn import cross_validation
+#from sklearn import cross_validation
+from sklearn.model_selection import KFold
+from sklearn.model_selection import train_test_split
 from sklearn import svm
 from skfeature.function.statistical_based import f_score
-
 
 def main():
     # load data
@@ -15,14 +16,17 @@ def main():
     n_samples, n_features = X.shape    # number of samples and number of features
 
     # split data into 10 folds
-    ss = cross_validation.KFold(n_samples, n_folds=10, shuffle=True)
+    #ss = cross_validation.KFold(n_samples, n_folds=10, shuffle=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42, shuffle=True)
+    cv = KFold(n_splits=10)
 
     # perform evaluation on classification task
     num_fea = 100    # number of selected features
     clf = svm.LinearSVC()    # linear SVM
 
     correct = 0
-    for train, test in ss:
+    #for train, test in ss:
+    for train, test in cv.split(X_train, y_train):
         # obtain the f-score of each feature
         score = f_score.f_score(X, y)
 
@@ -43,7 +47,7 @@ def main():
         correct = correct + acc
 
     # output the average classification accuracy over all 10 folds
-    print 'Accuracy:', float(correct)/10
+    print('Accuracy:', float(correct)/10)
 
 if __name__ == '__main__':
     main()

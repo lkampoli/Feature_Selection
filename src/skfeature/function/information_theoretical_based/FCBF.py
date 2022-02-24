@@ -1,7 +1,6 @@
 import numpy as np
 from skfeature.utility.mutual_information import su_calculation
 
-
 def fcbf(X, y, **kwargs):
     """
     This function implements Fast Correlation Based Filter algorithm

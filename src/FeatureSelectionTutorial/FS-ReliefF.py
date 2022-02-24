@@ -16,7 +16,8 @@ from sklearn.metrics import accuracy_score, r2_score, mean_squared_error
 import matplotlib.pyplot as plt 
 
 #seg_data = pd.read_csv('segmentation-all.csv')
-seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+#seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+seg_data = pd.read_csv('../../data/MT/DB6T.csv')
 print(seg_data.shape)
 print(seg_data.head())
 
@@ -31,7 +32,9 @@ print(seg_data['Viscosity'].value_counts())
 y = seg_data.pop('Viscosity').values
 X_raw = seg_data.values
 
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=42, test_size=1/2)
+#X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=42, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, train_size=0.75, test_size=0.25, random_state=666, shuffle=True)
+
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)
 X_test = scaler.transform(X_ts_raw)
@@ -43,7 +46,7 @@ print(X_train.shape, X_test.shape)
 # - `ReliefF` will produce scores for all features.
 # - `n_features_to_select` controls the transform behaviour, if a dataset is transformed this number of features will be retained. 
 
-reliefFS = ReliefF(n_features_to_select=2, n_neighbors=100, n_jobs = 4)
+reliefFS = ReliefF(n_features_to_select=2, n_neighbors=100, n_jobs = 2)
 
 reliefFS.fit(X_train, y_train)
 

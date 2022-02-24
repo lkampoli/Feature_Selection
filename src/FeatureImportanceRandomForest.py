@@ -38,16 +38,23 @@ import pickle
 
 n_jobs = 1
 
-with open('../../data/dataset_N2N_rhs.dat.OK') as f:
-    lines = (line for line in f if not line.startswith('#'))
-    data = np.loadtxt(lines, skiprows=0)
+#with open('../../data/dataset_N2N_rhs.dat.OK') as f:
+#    lines = (line for line in f if not line.startswith('#'))
+#    data = np.loadtxt(lines, skiprows=0)
+#
+#x = data[:,0:56]   # x_s, time_s, Temp, ni_n, na_n, rho, v, p, E, H
+#y = data[:,56:57]  # rhs[0:50]
+#
+#print(data.shape)
+#print("x=",x.shape)
+#print("y=",y.shape)
 
-x = data[:,0:56]   # x_s, time_s, Temp, ni_n, na_n, rho, v, p, E, H
-y = data[:,56:57]  # rhs[0:50]
-
+data = pd.read_csv('../data/MT/DB6T.csv')
 print(data.shape)
-print("x=",x.shape)
-print("y=",y.shape)
+print(data.head())
+
+y = data.pop('Viscosity').values
+x = data.values
 
 #plt.scatter(x[:,1], x[:,10], s=5, c='k', marker='o', label='treanor-marrone')
 #plt.ylabel(r'$\eta$ [Pa·s]')
@@ -58,7 +65,7 @@ print("y=",y.shape)
 #plt.show()
 #plt.close()
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.75, test_size=0.25, random_state=69)
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.75, test_size=0.25, random_state=666, shuffle=True)
 
 print("x=",x_train.shape)
 print("y=",y_train.shape)
@@ -95,7 +102,7 @@ print("y=",y_train.shape)
 feature_names = [f"feature {i}" for i in range(x.shape[1])]
 print(feature_names)
 #est = ensemble.RandomForestRegressor(random_state=69, verbose=2)
-est = ensemble.ExtraTreesRegressor(random_state=69, verbose=2)
+est = ensemble.ExtraTreesRegressor(random_state=666, verbose=2)
 est.fit(x_train, y_train.ravel())
 
 start_time = time.time()
@@ -120,7 +127,7 @@ fig.tight_layout()
 # and can be computed on a left-out test set.
 
 start_time = time.time()
-result = permutation_importance(est, x_test, y_test, n_repeats=10, random_state=42, n_jobs=2)
+result = permutation_importance(est, x_test, y_test, n_repeats=3, random_state=666, n_jobs=1)
 #results = permutation_importance(regr, x_train, y_train, scoring='neg_mean_squared_error')
 elapsed_time = time.time() - start_time
 print(f"Elapsed time to compute the importances: {elapsed_time:.3f} seconds")

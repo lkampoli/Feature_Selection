@@ -19,7 +19,8 @@ import matplotlib.pyplot as plt
 
 # Segmentation dataset
 #seg_data = pd.read_csv('segmentation-all.csv')
-seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+#seg_data = pd.read_csv('../../data/STS/transport/boltzmann/shear_viscosity.csv')
+seg_data = pd.read_csv('../../data/MT/DB6T.csv')
 print(seg_data.shape)
 print(seg_data.head())
 
@@ -37,7 +38,8 @@ X_raw = seg_data.values
 #feature_names = seg_data2C.columns
 feature_names = seg_data.columns
 
-X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=42, test_size=1/2)
+#X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, random_state=42, test_size=1/2)
+X_tr_raw, X_ts_raw, y_train, y_test = train_test_split(X_raw, y, train_size=0.075, test_size=0.025, random_state=666, shuffle=True)
 
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_tr_raw)

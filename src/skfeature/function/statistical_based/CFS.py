@@ -1,7 +1,6 @@
 import numpy as np
 from skfeature.utility.mutual_information import su_calculation
 
-
 def merit_calculation(X, y):
     """
     This function calculates the merit of X given class labels y, where
@@ -35,7 +34,6 @@ def merit_calculation(X, y):
     rff *= 2
     merits = rcf / np.sqrt(n_features + rff)
     return merits
-
 
 def cfs(X, y):
     """
@@ -83,4 +81,3 @@ def cfs(X, y):
                         if M[len(M)-4] <= M[len(M)-5]:
                             break
     return np.array(F)
-
