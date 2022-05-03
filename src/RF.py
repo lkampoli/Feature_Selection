@@ -39,29 +39,41 @@ from sklearn.decomposition import PCA, KernelPCA, FastICA
 
 from joblib import dump, load
 import pickle
+import pandas as pd
+import sys
+
+# xa = df.iloc[:, :54].values
+# ya = df.iloc[:,101:148].values
+
+
+
 
 n_jobs = 2
+cols = ["Pressure", "Temperature"] + [f"X{i}" for i in range(1, 50)] + ["Conductivity"]
+dataB = pd.read_csv("C:/Users/user/Feature_Selection/data/STS/transport/boltzmann/thermal_conductivity11.csv", sep=",", header=0)
 
-with open('../data/boltzmann/shear_viscosity.txt') as f:
-    lines = (line for line in f if not line.startswith('#'))
-    dataB = np.loadtxt(lines, skiprows=0)
+# with open('C:/Users/user/Feature_Selection/data/STS/transport/boltzmann/shear_viscosity.txt') as f:
+# # with open('C:/Users/user/Desktop/study/diplom/gam_m1_project-main (2)/gam_m1_project-main/db/datasets/shear_viscosity.txt')  as f:
+#     lines = (line for line in f if not line.startswith('#'))
+#     dataB = np.loadtxt(lines, skiprows=0)
 
 print(dataB.shape)
-xB = dataB[:,0:51] # P, T, x_ci[mol+at]
-yB = dataB[:,51:]  # shear viscosity
+xB = dataB.iloc[:, :51] # P, T, x_ci[mol+at]
+yB = dataB.iloc[:,51:]  # shear viscosity
+print(xB)
 print("x=",xB.shape)
 print("y=",yB.shape)
 
 # Let's consider simply the shear viscosity file ...
-with open('../data/treanor_marrone/shear_viscosity.txt') as f:
-    lines = (line for line in f if not line.startswith('#'))
-    dataTM = np.loadtxt(lines, skiprows=0)
-
-print(dataTM.shape)
-xTM = dataTM[:,0:52] # P, T, Tv, x_ci[mol+at]
-yTM = dataTM[:,52:]  # shear viscosity
-print("x=",xTM.shape)
-print("y=",yTM.shape)
+# with open('../data/treanor_marrone/shear_viscosity.txt') as f:
+#     lines = (line for line in f if not line.startswith('#'))
+#     dataTM = np.loadtxt(lines, skiprows=0)
+#
+# print(dataTM.shape)
+# xTM = dataTM[:,0:52] # P, T, Tv, x_ci[mol+at]
+# yTM = dataTM[:,52:]  # shear viscosity
+# print("x=",xTM.shape)
+# print("y=",yTM.shape)
 
 #plt.scatter(xTM[:,1], xTM[:,10], s=5, c='k', marker='o', label='treanor-marrone')
 #plt.scatter(xB[:,1], xB[:,9], s=5, c='r', marker='+', label='boltzmann')
@@ -73,8 +85,8 @@ print("y=",yTM.shape)
 #plt.show()
 #plt.close()
 
-x_train, x_test, y_train, y_test = train_test_split(xTM, yTM, train_size=0.75, test_size=0.25, random_state=69)
-#x_train, x_test, y_train, y_test = train_test_split(xB, yB, train_size=0.75, test_size=0.25, random_state=69)
+# x_train, x_test, y_train, y_test = train_test_split(xTM, yTM, train_size=0.75, test_size=0.25, random_state=69)
+x_train, x_test, y_train, y_test = train_test_split(xB, yB, train_size=0.75, test_size=0.25, random_state=69)
 
 print("x=",x_train.shape)
 print("y=",y_train.shape)

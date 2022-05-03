@@ -8,12 +8,18 @@ The KAPPA library can be donwloaded here:
 ```
 git clone https://github.com/lkampoli/kappa
 ```
+“¿Ã ∆≈ ”∆≈ ≈—“‹ ¡ƒ? Õ”∆Õ€  ¿ »≈-“Œ ƒ–”√»≈?
+
 
 ### Example: shear_viscosity.txt
 Transport properties with state-to-state model for N2/N mixture
 computed with KAPPA, mixture-sts-transport_properties.cpp
 
 Pressure [Pa] Temperature [K] Molecular molar fractions [] Atomic molar fractions [] Shear viscosity [Pa-s]
+
+DATASET_O2O ≈√Œ ‘»◊» » “¿–√≈“€  ¿ »≈?
+
+
 
 ## Multi-temperature (6T,5T,4T) code for CO2 mixture transport coefficients
 ```
